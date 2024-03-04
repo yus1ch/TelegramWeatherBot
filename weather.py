@@ -1,8 +1,8 @@
-import requests
+import requests  # импорт библиотеки для работы с запросами
 
 link = "https://api.open-meteo.com/v1/forecast?latitude={0}&longitude={1}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&wind_speed_unit=ms"
 
-weather_codes = {
+weather_codes = {  # различные вариации типов погоды
         0: "Чистое небо",
         1: "В основном ясно",
         2: "Частично облачно",
@@ -29,7 +29,7 @@ weather_codes = {
         85:  "Незначительный снегопад",
         86: "Сильный снегопад"
     }
-wind_directions = ("С", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ")
+wind_directions = ("С", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ")  # нормализованный вид направления ветра
 
 
 def current_weather(latitude, longitude):
@@ -48,11 +48,11 @@ def current_weather(latitude, longitude):
 
     """
 
-    r = requests.get(link.format(latitude, longitude)).json()["current"]
+    r = requests.get(link.format(latitude, longitude)).json()["current"]  # получаем ответ от API
 
-    temperature = r["temperature_2m"]
-    wind_speed = r["wind_speed_10m"]
-    wind_direction = wind_directions[int((r["wind_direction_10m"] + 22.5) // 45 % 8)]
-    weather_code = weather_codes[r["weather_code"]]
+    temperature = r["temperature_2m"]  # температура
+    wind_speed = r["wind_speed_10m"]  # скорость ветра
+    wind_direction = wind_directions[int((r["wind_direction_10m"] + 22.5) // 45 % 8)]   # направление ветра
+    weather_code = weather_codes[r["weather_code"]]  # тип погоды
 
     return temperature, wind_speed, wind_direction, weather_code
